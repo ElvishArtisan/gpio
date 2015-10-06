@@ -1,0 +1,92 @@
+## gpio-redhat.spec.in
+##
+##    GPIO Driver for MeasurementComputing Cards
+##    Copyright (C) 2002-2011  Fred Gleason <fredg@paravelsystems.com>
+##
+##    This program is free software; you can redistribute it and/or modify
+##    it under the terms of version 2 of the GNU General Public License as
+##    published by the Free Software Foundation;
+##
+##    This program is distributed in the hope that it will be useful,
+##    but WITHOUT ANY WARRANTY; without even the implied warranty of
+##    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##    GNU General Public License for more details.
+##
+##    You should have received a copy of the GNU General Public License
+##    along with this program; if not, write to the Free Software
+##    Foundation, Inc., 59 Temple Place, Suite 330, 
+##    Boston, MA  02111-1307  USA
+##
+
+Summary: Linux driver for MeasurementComputing data acquisition boards
+Name: gpio
+Version: @VERSION@
+Release: @RPM_RELEASE@
+License: GPL
+Packager: Fred Gleason <fredg@paravelsystems.com>
+Group: System/Kernel
+Source: http://www.paravelsystems.com/ftpdocs/gpio/gpio-@VERSION@.tar.gz
+BuildRoot: /var/tmp/gpio-@VERSION@
+Requires: kmod-gpio
+
+%description
+A Linux driver for the line of data acquisition boards manufactured by 
+MeasurementComputing.
+
+
+%prep
+
+
+%setup
+
+
+%post
+
+%build
+./configure --prefix=/usr
+make
+
+
+%install
+rm -rf $RPM_BUILD_ROOT
+
+mkdir -p $RPM_BUILD_ROOT@LOCAL_PREFIX@/include/linux
+cp drv/gpio.h $RPM_BUILD_ROOT@LOCAL_PREFIX@/include/linux
+
+mkdir -p $RPM_BUILD_ROOT@LOCAL_PREFIX@/bin
+cp utils/gpitest $RPM_BUILD_ROOT@LOCAL_PREFIX@/bin/
+cp utils/gpotest $RPM_BUILD_ROOT@LOCAL_PREFIX@/bin/
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+
+%files
+%defattr(-,root,root)
+@LOCAL_PREFIX@/include/linux/gpio.h
+@LOCAL_PREFIX@/bin/gpitest
+@LOCAL_PREFIX@/bin/gpotest
+%doc API AUTHORS ChangeLog COPYING device_notes INSTALL README
+
+
+%changelog
+* Fri Feb 04 2011 Fred Gleason <fredg@paravelsystems.com>
+-- Removed '/etc/init.d/gpio'.
+-- Remove the kernel module.
+-- Added a dependency for 'kmod-gpio'.
+* Wed Nov 07 2007 Fred Gleason <fredg@paravelsystems.com>
+-- Moved kernel driver to 'drv/' directory.
+-- Added gpitest(1) and gpotest(1) from 'libradio'.
+* Thu Aug 10 2006 Fred Gleason <fredg@salemradiolabs.com>
+-- Removed device file creation code from the '%post' rule.
+* Wed Feb 15 2006 Fred Gleason <fredg@salemradiolabs.com>
+-- Altered install paths use the value supplied in the '--prefix'
+argument to 'configure'.
+* Wed Feb 08 2006 Fred Gleason <fredg@salemradiolabs.com>
+-- Altered install paths to use $prefix value from Autoconf.
+* Mon Aug 02 2004 Fred Gleason <fredg@salemradiolabs.com>
+-- Added support for kernel 2.6.x.
+* Wed Dec 10 2003 Fred Gleason <fredg@salemradiolabs.com>
+-- Added a post-installation script to create the /dev/gpio* devices.
+* Fri Dec 05 2003 Fred Gleason <fredg@salemradiolabs.com>
+-- Initial spec file creation.

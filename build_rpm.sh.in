@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# build_rpm.sh
+#
+# RPM build script for the GPIO package.
+#
+# (C) Copyright 2011 Fred Gleason <fredg@paravelsystems.com>
+#
+#     $Id: build_rpm.sh.in,v 1.2 2011/02/07 16:11:51 cvs Exp $
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of version 2 of the GNU General Public License as
+#    published by the Free Software Foundation;
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, 
+#    Boston, MA  02111-1307  USA
+#
+
+if test "@DISTRO@" = "redhat" ; then
+  cp gpio-@VERSION@.tar.gz @RPM_ROOT@/SOURCES/
+  @RPMBUILD@ -ba --target @ARCH@-@VENDOR@-linux gpio-redhat.spec
+  mv @RPM_ROOT@/RPMS/@ARCH@/gpio-@VERSION@-@RPM_RELEASE@.@ARCH@.rpm .
+  mv @RPM_ROOT@/RPMS/@ARCH@/gpio-debuginfo-@VERSION@-@RPM_RELEASE@.@ARCH@.rpm .
+  @RPMBUILD@ -ba --target @KMOD_ARCH@-@VENDOR@-linux gpio-kmod.spec
+  mv @RPM_ROOT@/RPMS/@KMOD_ARCH@/kmod-gpio-@VERSION@-@RPM_RELEASE@.@KMOD_ARCH@.rpm .
+  mv @RPM_ROOT@/SRPMS/gpio-@VERSION@-@RPM_RELEASE@.src.rpm .
+  rm @RPM_ROOT@/SOURCES/gpio-@VERSION@.tar.gz
+  rm -rf @RPM_ROOT@/BUILD/gpio-@VERSION@
+else
+  cp gpio-@VERSION@.tar.gz @RPM_ROOT@/SOURCES/
+  @RPMBUILD@ -ba --target @ARCH@-@VENDOR@-linux gpio.spec
+  mv @RPM_ROOT@/RPMS/@ARCH@/gpio-@VERSION@-@RPM_RELEASE@.@ARCH@.rpm .
+  mv @RPM_ROOT@/SRPMS/gpio-@VERSION@-@RPM_RELEASE@.src.rpm .
+  rm @RPM_ROOT@/SOURCES/gpio-@VERSION@.tar.gz
+  rm -rf @RPM_ROOT@/BUILD/gpio-@VERSION@
+fi

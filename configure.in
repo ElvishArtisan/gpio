@@ -1,0 +1,139 @@
+dnl configure.in
+dnl
+dnl    GPIO Driver for MeasurementComputing Cards
+dnl    Copyright (C) 2002-2004  Fred Gleason <fredg@paravelsystems.com>
+dnl
+dnl    This program is free software; you can redistribute it and/or modify
+dnl    it under the terms of version 2 of the GNU General Public License as
+dnl    published by the Free Software Foundation;
+dnl
+dnl    This program is distributed in the hope that it will be useful,
+dnl    but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+dnl    GNU General Public License for more details.
+dnl
+dnl    You should have received a copy of the GNU General Public License
+dnl    along with this program; if not, write to the Free Software
+dnl    Foundation, Inc., 59 Temple Place, Suite 330, 
+dnl    Boston, MA  02111-1307  USA
+dnl
+dnl Use autoconf to process this into a configure script
+dnl
+
+#
+# Basic Package Info
+#
+AC_INIT(gpio,1.1.2,Fred Gleason <fredg@paravelsystems.com>)
+AM_INIT_AUTOMAKE(gpio,1.1.2)
+AC_SUBST(RPM_RELEASE,1)
+AC_SUBST(DEV_MAJOR,125)
+
+#
+# Some Fully Resolved Install Paths
+# (for the packaging system and friends)
+#
+if test ${prefix} = "NONE" ; then
+  AC_SUBST(LOCAL_PREFIX,/usr/local)
+else
+  AC_SUBST(LOCAL_PREFIX,${prefix})
+fi
+
+#
+# Basic Compiler Checks
+#
+AC_PROG_CC
+
+#
+# Check for Option Switches
+#
+AC_ARG_ENABLE(slackware,[  --enable-slackware      enable Slackware installation scripts],
+		      [SLACK_ENABLED=true],[])
+AC_ARG_ENABLE(tools,[  --disable-tools         disable build of GUI-based tools],
+		      [AC_MSG_NOTICE("GUI-based tools will not be built")],[TOOLS_ENABLED=yes])
+
+#
+# Check for Qt
+#
+BNV_HAVE_QT
+if test $TOOLS_ENABLED ; then
+  if test $have_qt = "yes" ; then
+    QT_FOUND=yes
+  fi
+fi
+AM_CONDITIONAL(GPIO_AM, test $QT_FOUND)
+
+#
+# Get Kernel Version
+#
+if test `uname -r | grep 2\.4\.` ; then
+  AC_SUBST(KERNELVERSION,2_4)
+  AC_SUBST(KERNELFLAG,"-DKERNEL_2_4")
+  AC_SUBST(MOD_EXTENSION,o)
+  AC_MSG_NOTICE([Found kernel v2.4.x])
+else 
+  if test `uname -r | grep 2\.6\.` ; then
+    AC_SUBST(KERNELVERSION,2_6)
+    AC_SUBST(KERNELFLAG,"-DKERNEL_2_4")
+    AC_SUBST(MOD_EXTENSION,ko)
+    AC_MSG_NOTICE([Found kernel v2.6.x])
+  else
+    AC_MSG_ERROR([*** Unsupported kernel version ***])
+  fi
+fi
+AC_SUBST(KERNEL_VERSION_STRING,[`uname -r`])
+
+#
+# Determine the target architecture
+#
+AR_GCC_TARGET()
+AC_SUBST(VENDOR,$ar_gcc_distro)
+AC_SUBST(ARCH,$ar_gcc_arch)
+if test $ar_gcc_arch = "i386" ; then
+  AC_SUBST(KMOD_ARCH,"i686")
+else
+  AC_SUBST(KMOD_ARCH,$ar_gcc_arch)
+fi
+
+#
+# Configure RPM Build
+#
+AC_CHECK_PROG(RPMBUILD_FOUND,rpmbuild,[yes],[])
+if test -z $RPMBUILD_FOUND ; then
+  AC_SUBST(RPMBUILD,rpm)
+else
+  AC_SUBST(RPMBUILD,rpmbuild)
+fi
+if test -d /usr/src/redhat ; then
+  AC_SUBST(RPM_ROOT,/usr/src/redhat)
+  AC_SUBST(DISTRO,"redhat")
+else
+  AC_SUBST(RPM_ROOT,/usr/src/packages)
+  AC_SUBST(DISTRO,"generic")
+fi 
+
+if test $KERNELVERSION = 2_4 ; then
+  AC_OUTPUT(./drv/Makefile \
+  )
+else
+  AC_OUTPUT(./drv/Makefile-2.6 \
+  )
+  cp drv/Makefile-2.6 drv/Makefile
+fi
+AC_OUTPUT(./utils/Makefile \
+  )
+AC_OUTPUT(./Makefile \
+  )
+AC_OUTPUT(./make_slack \
+)
+chmod 755 make_slack
+AC_OUTPUT(./slack-desc \
+)
+AC_OUTPUT(./gpio.spec \
+)
+AC_OUTPUT(./gpio-redhat.spec \
+)
+AC_OUTPUT(./gpio-kmod.spec \
+)
+AC_OUTPUT(./build_rpm.sh \
+)
+chmod 755 build_rpm.sh

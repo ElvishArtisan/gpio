@@ -1,0 +1,70 @@
+To install the driver, proceed as follows:
+
+1)  Make sure that the sources for the version of the Linux kernel
+    currently running are properly installed.  In particular, the 
+    '/lib/modules/<kernel-version>/build' symlink needs to exist and
+    point to the correct location (the root of the current kernel
+    source tree).
+
+
+2)  Cd to the top of the gpio source tree, and then do:
+
+       ./configure
+       make
+
+followed by (as root):
+
+       make install
+
+
+3)  Start the driver to test things out.  If all of your GPIO devices
+    are PCI based, then this is simply a matter of doing (as root):
+
+       /etc/init.d/gpio start
+
+    If you are using an ISA based card (e.g. CIO-DIO24), then you will
+    need to edit the 'PACKAGE_OPTIONS' line in the init script to set
+    the card type and I/O address to the module (see item 4 for details).
+
+    The currently supported board types are:
+
+       CIO-DIO24  0x0028
+
+    Next do:
+
+	 ls /proc/driver/gpio
+
+    You should see one or more file entries, of the form 'card0,
+    card1, ...'.  Examine the contents of each, by doing:
+
+	 cat /proc/driver/gpio/card0
+
+    You should see something like:
+
+             Board: MeasurementComputing PCI-PDISO8
+              Mode: AUTO
+       Input Lines: 8
+      Output Lines: 8
+      Analog Lines: 0
+  Analog Bit Depth: 0
+
+   Inputs:
+    00:Off  01:Off  02:Off  03:Off  04:Off  05:Off  06:Off  07:Off  
+
+  Outputs:
+    00:Off  01:Off  02:Off  03:Off  04:Off  05:Off  06:Off  07:Off  
+
+  Filters:
+    00:Off  01:Off  02:Off  03:Off  04:Off  05:Off  06:Off  07:Off  
+
+
+4)  Enable the driver.  On SuSE, simply run Yast2, select 'Runlevel 
+    Editor' and enable the GPIO service.  If you are
+    using an ISA based card, you will need to edit the script
+    '/etc/init.d/gpio' and add the module startup options to the
+    'PACKAGE_OPTIONS=' line in the section entitled 'Package
+    Definitions'.
+
+
+NOTES
+The programming interface is documented in the file 'API'.

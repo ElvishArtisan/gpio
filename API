@@ -1,0 +1,116 @@
+             GPIO Driver Application Programming Interface
+
+All driver operations are performed by means of the ioctl(2) syscall.
+
+
+DATA STRUCTURES
+
+#include <linux/gpio.h>
+
+struct gpio_info {
+  char name[48];     // Model/Description of board (null-terminated string)
+  int mode;          // Board Mode
+  int inputs;        // Number of input lines
+  int outputs;       // Number of output lines
+  int samples;       // Number of analog sample channels
+  int depth;         // Number of sample bits per analog channel
+  unsigned caps;     // Device capabilities
+};
+
+The 'gpio_info' structure is used to hold general information about
+the capabilities and configuration of a device.
+ 
+The 'mode' field takes one of the following values:
+    GPIO_MODE_AUTO   // Mode is set automatically by the device,
+                     // and cannot be changed
+
+    GPIO_MODE_INPUT  // All the digital lines on the board are
+		     // configured as inputs
+ 
+    GPIO_MODE_OUTPUT // All the digital lines on the board are
+		     // configured as outputs
+
+The 'caps' field is a bitwise-OR'd value of the following flags:
+    GPIO_CAP_MODE          // The mode of this device can be changed
+    GPIO_CAP_FILTER        // The device supports input filters
+    GPIO_CAP_DIFFERENTIAL  // The analog lines support differential inputs
+    GPIO_CAP_BIPOLAR       // The analog lines support bipolar inputs
+
+
+struct gpio_mask {
+  unsigned mask[4];
+};
+
+The 'gpio_mask' structure is used to hold the entire state of a given
+set of digital lines.
+
+The 'mask' field is a bitwise representation of an entire set of line
+states in little-endian order, where a '0' means the line is in the
+'off' state and a '1' means the line is in an 'on' state.
+
+
+struct gpio_line {
+  int line;          // The number of the output line (0 - 127)
+  int gain;          // Channel gain, value 0 - 3
+  int state;         // 0 = Off, 1 = On
+};
+
+The 'gpio_line' stucture is used to hold the state of just a single 
+digital line.
+
+
+struct gpio_sample {
+  int line;          // The number of the input line (0 - 127)
+  unsigned sample;   // The sample value
+};
+
+The 'gpio_sample' structure is used to hold a single analog sample.
+
+
+IOCTLS
+
+GPIO_GETINFO -- Get device information
+
+Takes a struct gpio_info as argument.
+
+
+GPIO_SETMODE -- Set the mode of a device
+
+Takes an unsigned int as argument, which can take a value of either
+GPIO_MODE_INPUT or GPIO_MODE_OUTPUT.  If the device does not
+advertise GPIO_CAP_MODE as set, returns EINVAL.
+
+
+GPIO_GET_INPUTS -- Get the current input mask
+
+Takes a struct gpio_mask as argument.
+
+
+GPIO_GET_OUTPUTS -- Get the current output mask
+
+Takes a struct gpio_mask as argument.
+
+
+GPIO_GET_FILTERS -- Get the current filter mask
+
+Takes a struct gpio_mask as argument.
+
+
+GPIO_SET_OUTPUT -- Set an output line to a given state
+
+Takes a struct gpio_line as argument.
+
+
+GPIO_SET_FILTER -- Enable/disable the input filter on an input line
+
+Takes a struct gpio_line as argument.
+
+
+GPIO_SET_OUTPUTS -- Set the output mask
+
+Takes a struct gpio_mask as argument.
+
+
+GPIO_SET_FILTERS -- Set the filter mask
+
+Takes a struct gpio_mask as argument.

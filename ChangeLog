@@ -1,0 +1,232 @@
+2003-06-11 Fred Gleason <fredg@salemradiolabs.com>
+	* Modified 'Makefile' to work properly with the new module header
+	scheme.
+	* Modified 'Makefile' to use the correct flags for the module
+	target, as opposed to the userspace utils.
+	* Added a 'struct gpio_info' definition in 'gpio.h'.
+2003-06-11 Fred Gleason <fredg@salemradiolabs.com>
+	* Completed support for the MeasurementComputing PCI-PDIS08 board.
+2003-06-12 Fred Gleason <fredg@salemradiolabs.com>
+	* Moved the contents of 'gpio_drv.h' into 'gpio.h' (protected by
+	'__KERNEL__').
+	* Deleted 'gpio_dev.h'.
+	* Added a 'struct gpio_mask' in 'gpio.h'.
+	* Modified the 'GPIO_GET_OUTPUTS' and 'GPIO_GET_INPUTS' ioctls to
+	use a 'struct gpio_mask' to pass parameters.
+	* Added a 'GPIO_SET_OUTPUTS' ioctl.
+	* Added a 'GPIO_SET_FILTERS' ioctl.
+	* Added an 'analogs' field to 'struct gpio_info'.
+	* Added a 'depth' field to 'struct gpio_info'.
+	* Added ProcFS support.
+	* Added support for the MeasurementComputing PCI-DIO24.
+2003-06-13 Fred Gleason <fredg@salemradiolabs.com>
+	* Added support for the MeasurementComputing PCI-PDISO16.
+	* Added a copy of the GPL in 'COPYING'.
+	* Added a 'README' file.
+	* Added an 'INSTALL' file.
+	* Added an 'API' file.
+	* Released as v0.1.0.
+2003-06-13 Fred Gleason <fredg@salemradiolabs.com>
+	* Deleted 'test_gpio.c'.
+	* Deleted 'device_notes.txt'.
+	* Released as v0.1.1.
+2003-06-17 Fred Gleason <fredg@salemradiolabs.com>
+	* Removed the include for 'asm/spinlock.h' from 'gpio.c'.
+2003-06-14 Fred Gleason <fredg@salemradiolabs.com>
+	* Added support for the digital section of the PCI-DAS1000.
+2003-06-15 Fred Gleason <fredg@salemradiolabs.com>
+	* Stubbed out irq support for the PCI-DAS1000.
+2003-06-15 Fred Gleason <fredg@salemradiolabs.com>
+	* Rewrote the i/o variable structure to hold all six PCI i/o
+	regions.
+	* Added some code for sample reading on the PCI-DAS1000.  Still
+	not working.
+2003-12-05 Fred Gleason <fredg@salemradiolabs.com>
+	* Added a 'remove_devices' script.
+	* Fixed a bug in 'make_devices' that was trying to create
+	devices that already existed.
+	* Autoconfiscated the package.
+	* Added a 'make rpm' target.
+2003-12-09 Fred Gleason <fredg@salemradiolabs.com>
+	* Added an rc start script in 'gpio'.
+	* Released as v0.5.0.
+2003-12-10 Fred Gleason <fredg@salemradiolabs.com>
+	* Added a post-installation script to 'gpio.spec.in' to create
+	the /dev/gpio* devices.
+	* Released as v0.5.1.
+2003-01-07 Fred Gleason <fredg@salemradiolabs.com>
+	* Added 'gpio.spec.in' to EXTRA_DISTS in 'Makefile.am'.
+	* Released as v0.5.2.
+2003-01-13 Fred Gleason <fredg@salemradiolabs.com>
+	* Updated 'gpio' to comply with LSB v1.3.
+	* Released as v0.5.3.
+2003-03-27 Fred Gleason <fredg@salemradiolabs.com>
+	* Added support for the MeasurementComputing CIO-DIO24.
+	* Added 'board_type=' and 'board_port=' parameters to the 'gpio'
+	module.
+	* Fixed a bug in 'gpio.c' where invalid/nonexistent  io port
+	resources were attempted to be freed at module shutdown.
+	* Added a 'PACKAGE_OPTIONS' variable to the 'gpio' init script to
+	allow passage of module startup options.
+	* Incremented the version number to 0.6.0.
+2003-03-27 Fred Gleason <fredg@salemradiolabs.com>
+	* Added an example 'PACKAGE_OPTIONS=' line to 'gpio'.
+	* Incremented version number to 0.6.1.
+2004-08-02 Fred Gleason <fredg@salemradiolabs.com>
+	* Added 'Makefile-2.6' for kernel 2.6.x support.
+	* Added 'gpio.in'.
+	* Removed 'gpio'.
+2004-08-02 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'configure.in' that was causing an invalid
+	Makefile to be generated with 2.4.x kernels.
+	* Fixed a bug in 'configure.in' that was using the incorrect
+	module extension with 2.4.x kernels.
+2004-08-02 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'configure.in' that was causing an invalid
+	Makefile to be generated with 2.6.x kernels.
+2004-08-02 Fred Gleason <fredg@salemradiolabs.com>
+	* Incremented the RPM release to 2.
+	* Incremented the package version to 0.9.0.
+2004-08-02 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'gpio.spec.in.
+	* Incremented the package version to 0.9.1.
+2004-08-02 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'Makefile.am' that was causing the makefile for
+	2.6.x kernels to not be included in the distribution tarball.
+2004-08-02 Fred Gleason <fredg@salemradiolabs.com>
+	* Incremented the package version to 0.9.2.
+2004-08-03 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'Makefile-2.6' that was causing 'make install' to
+	fail.
+2004-10-28 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'configure.in' that was causing the RPM build to
+	break on SuSE 8.1.
+2004-12-16 Fred Gleason <fredg@salemradiolabs.com>
+	* Incremented the package version 0.9.3.
+	* Changed the RPM release number to 1.
+2006-01-23 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'Makefile.am' that was causing the init script to
+	fail to install properly on Slackware.
+	* Fixed a bug in 'Makefile-2.6' that was causing the init script to
+	fail to install properly on Slackware.
+2006-01-23 Fred Gleason <fredg@salemradiolabs.com>
+	* Added code to the init script in 'gpio-in' to allow for proper
+	operation even on systems lacking the LSB Init functions.
+2006-01-23 Fred Gleason <fredg@salemradiolabs.com>
+	* Added a 'make_slack' script to generate a Slackware package.
+	* Added a 'slack_doinst.sh' script for the Slackware packaging
+	system.
+	* Added a 'slack' target to the build system for generating a
+	Slackware package.
+2006-01-23 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'make_slack.in' that was causing the init script to
+	be installed with incorrect permissions.
+2006-01-23 Fred Gleason <fredg@salemradiolabs.com>
+	* Added a 'slax' build target to make a SLAX module.
+2006-01-23 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'Makefile-2.6' that broke the 'slax' target.
+2006-01-23 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'Makefile-2.6' that broke the 'dist' target.
+2006-01-24 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'Makefile-2.6' and 'Makefile.am' that was
+	causing generation of corrupt SLAX modules.
+2006-01-27 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'make_slack.in' that was causing the 'gpio.h' to
+	be installed in an incorrect location in the Slackware package.
+2006-02-06 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed a bug in 'gpio.in' that was causing the script to
+	fail to detect the presence of the LSB Init functions.
+2006-02-08 Fred Gleason <fredg@salemradiolabs.com>
+	* Modified 'gpio.spec.in' and 'make_slack.in' to use the
+	install paths provided by Autoconf.
+	* Moved 'Makefile-2.6' to 'Makefile-2.6.in'.
+2006-02-15 Fred Gleason <fredg@salemradiolabs.com>
+	* Added 'slack-desc' to the 'distclean' target in 'Makefile.am'
+	and 'Makefile-2.6.in'.
+2006-02-15 Fred Gleason <fredg@salemradiolabs.com>
+	* Modified the 'rpm' target in 'Makefile-2.6.in' so as to generate
+	the output RPMs in the top-level source directory.
+	* Updated the package version to 0.9.4.
+2006-06-05 Fred Gleason <fredg@salemradiolabs.com>
+	* Replaced 'MODULE_PARM()' macros in 'gpio.c' with
+	'module_param() for 2.6.x kernels'.
+2006-06-05 Fred Gleason <fredg@salemradiolabs.com>
+	* Added an '#include' in 'gpio.c' to allow compilation with kernel
+	v2.6.5.
+2006-06-05 Fred Gleason <fredg@salemradiolabs.com>
+	* Incremented the package version to 0.9.5.
+2006-08-10 Fred Gleason <fredg@salemradiolabs.com>
+	* Modified 'gpio.c' to dynamically assign device numbers.
+	* Removed the 'GPIO_DEV_MAJOR' define from 'gpio.h'.
+	* Modified 'gpio.in' to dynamically create and remove device files
+	at driver startup and shutdown.
+	* Removed 'make_devices' and 'remove_devices'.
+	* Removed device file creation code from 'gpio.spec.in'.
+	* Removed device file creation code from 'slack_doinst.sh'.
+2006-08-10 Fred Gleason <fredg@salemradiolabs.com>
+	* Added conditionals in 'gpio.c' to allow operation with 2.4.x
+	kernels.
+2006-08-10 Fred Gleason <fredg@salemradiolabs.com>
+	* Removed conditionals and rewrote device number registration
+	routines in 'gpio.c' to be compatible with both 2.4.x and 2.6.x
+	kernels.
+2006-08-10 Fred Gleason <fredg@salemradiolabs.com>
+	* Updated the 'INSTALL' file.
+	* Updated the package version to 0.9.6.
+2006-08-11 Fred Gleason <fredg@salemradiolabs.com>
+	* Added an 'acinclude.m4' file.
+	* Added a 'get_target.sh' script.
+	* Added an 'AR_GCC_TARGET()' macro in 'acinclude.m4'.
+	* Modified 'make_slack.in' to properly handle building on
+	x86_64 architecture.
+2006-08-11 Fred Gleason <fredg@salemradiolabs.com>
+	* Cleaned up casts in 'gpio.c' to fix gcc warnings on x86_64
+	architecture.
+2006-11-28 Fred Gleason <fredg@salemradiolabs.com>
+	* Fixed bugs in 'Makefile-2.6.in' and 'Makefile.am' that were
+	causing the 'make rpm' target to break on Fedora Core 6.
+2007-11-07 Fred Gleason <fredg@paravelsystems.com>
+	* Added the 'BNV_HAVE_QT' macro in 'acinclude.m4'.
+	* Moved the kernel driver to the 'drv/' directory.
+	* Added the gpitest(1) and 'gpotest(1) utilities from the LibRadio
+	package in 'utils/'.
+2007-11-12 Fred Gleason <fredg@paravelsystems.com>
+	* Added an '--disable-tools' switch in 'configure.in'.
+2007-12-12 Fred Gleason <fredg@paravelsystems.com>
+	* Removed dead analog sampling code from 'drv/gpio.c' and
+	'drv/gpio.h'.
+2007-12-17 Fred Gleason <fredg@paravelsystems.com>
+	* Incremented package version to 0.9.7.
+2008-04-10 Fred Gleason <fredg@paravelsystems.com>
+	* Updated the e-mail address in the copyright notices.
+2008-04-10 Fred Gleason <fredg@paravelsystems.com>
+	* Updated the package version to 1.0.0.
+2008-04-10 Fred Gleason <fredg@paravelsystems.com>
+	* Added gpitest(1) and gpotest(1) to the Slackware packaging rules
+	in 'make_slack.in'.
+2011-02-04 Fred Gleason <fredg@paravelsystems.com>
+	* Added udev support in 'drv/gpio.c'.
+	* Added a MODULE_DEVICE_TABLE in 'drv/gpio.c'.
+2011-02-04 Fred Gleason <fredg@paravelsystems.com>
+	* Removed 'gpio.in'.
+2011-02-04 Fred Gleason <fredg@paravelsystems.com>
+	* Moved the kernel module from 'kernel/drivers/char/gpio.ko' to
+	'extra/gpio.ko'.
+	* Added 'make_rpm.sh.in'.
+	* Updated the 'make rpm' target to comply with RedHat Driver Update
+	Program guidelines (see http://dup.et.redhat.com/).
+2011-02-07 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug 'build_rpm.sh.in' that broke the 'make rpm' target on
+	i386/i686 architecture.
+2011-02-07 Fred Gleason <fredg@paravelsystems.com>
+	* Incremented the package version to 1.1.0.
+2011-09-16 Fred Gleason <fredg@paravelsystems.com>
+	* Removed the 'RIsTimeSynced()' function from 'utils/rconf.cpp' and
+	'utils/rconf.h'.
+2011-09-16 Fred Gleason <fredg@paravelsystems.com>
+	* Incremented the package version to 1.1.1.
+2012-03-13 Fred Gleason <fredg@paravelsystems.com>
+	* Added support for the PCI-DIO24H card in 'drv/gpio.cpp' and
+	'drv/gpio.c'.
+2012-03-13 Fred Gleason <fredg@paravelsystems.com>
+	* Incremented the package version to 1.1.2.

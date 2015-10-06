@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                                 |-----handy-ruler------------------------------------------------------|
+gpio-@VERSION@-i386-@RPM_RELEASE@: gpio (Kernel driver for MeasurementComputing GPIO cards)
+gpio-@VERSION@-i386-@RPM_RELEASE@:
+gpio-@VERSION@-i386-@RPM_RELEASE@: The GPIO package is a kernel driver for the line of general purpose 
+gpio-@VERSION@-i386-@RPM_RELEASE@: input/ouput (GPIO) cards manufactured by MeasurementComputing
+gpio-@VERSION@-i386-@RPM_RELEASE@: [http://www.measurementcomputing.com/].  The following cards are
+gpio-@VERSION@-i386-@RPM_RELEASE@: supported:
+gpio-@VERSION@-i386-@RPM_RELEASE@: 
+gpio-@VERSION@-i386-@RPM_RELEASE@: PCI-PDIS08, PCI-PDIS16, PCI-DIO24, PCI-DAS1000 (Digital Section Only)
+gpio-@VERSION@-i386-@RPM_RELEASE@: 
+gpio-@VERSION@-i386-@RPM_RELEASE@: 
+gpio-@VERSION@-i386-@RPM_RELEASE@:

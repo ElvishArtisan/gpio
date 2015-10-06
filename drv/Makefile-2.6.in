@@ -1,0 +1,53 @@
+# Makefile for the gpio driver on Linux 2.6.x
+#
+#    GPIO Driver for MeasurementComputing Cards
+#    Copyright (C) 2002-2006  Fred Gleason <fredg@paravelsystems.com>
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of version 2 of the GNU General Public License as
+#    published by the Free Software Foundation;
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, 
+#    Boston, MA  02111-1307  USA
+#
+
+INCLUDE_DIR = /usr/include/linux
+
+ifneq ($(KERNELRELEASE),)
+obj-m	:= gpio.o
+
+else
+KDIR	:= /lib/modules/$(shell uname -r)/build
+PWD	:= $(shell pwd)
+
+endif
+
+all:
+	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules
+
+install:	
+	cp gpio.ko /lib/modules/`uname -r`/extra/
+	cp gpio.h $(INCLUDE_DIR)/
+
+clean:	
+	rm -rf *~ *.o *.ko *.mod.* .tmp_versions .gpio* *.tar.gz\
+        gpio-@VERSION@ *.tgz *.mo *.rpm
+
+distdir:	      
+	cp gpio.c ../gpio-@VERSION@/drv/
+	cp gpio.h ../gpio-@VERSION@/drv/
+	cp Makefile-2.6.in ../gpio-@VERSION@/drv/
+	cp Makefile.am ../gpio-@VERSION@/drv/
+
+distclean:	clean
+	rm -f Makefile Makefile-2.6
+
+maintainer-clean:	distclean
+	rm -rf *~ Makefile.in

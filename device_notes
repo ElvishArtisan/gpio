@@ -1,0 +1,16 @@
+PCI-DIO24 Card
+
+Class: FFFF
+Vendor ID: 1307
+Device ID: 0028
+I/O: 0x1080 [0x10ff]
+I/O: 0x1c88 [0x1c8b]
+
+Four I/O ports mapped: 0x1c88 through 0x1c8b
+Port 0:  Relays 01 - 08
+Port 1:  Relays 09 - 16
+Port 2:  Relays 17 - 24
+Port 3:  Control Port
+         0x80 = Put ports in output mode
+         0x8F = Put ports in input mode (default)
+ 

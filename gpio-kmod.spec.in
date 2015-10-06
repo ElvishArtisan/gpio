@@ -1,0 +1,41 @@
+Name: gpio
+License: GPL
+Group: System/Kernel
+Summary: Linux driver for MeasurementComputing data acquisition boards
+Version: @VERSION@
+Release: @RPM_RELEASE@
+Source0: %name-%version.tar.gz
+BuildRoot: %{_tmppath}/%{name}-%{version}-build
+BuildRequires: %kernel_module_package_buildreqs
+%kernel_module_package
+%description
+This is the kernel module for the gpio package, a Linux driver for the line
+of data acquisition boards manufactured by MeasurementComputing.
+
+%prep
+%setup
+set -- *
+./configure
+mkdir source
+mv "$@" source/
+mkdir obj
+%build
+export EXTRA_CFLAGS='-DVERSION=\"%version\"'
+for flavor in %flavors_to_build ; do
+   rm -rf obj/$flavor
+   cp -r source/drv obj/$flavor
+   make -C %{kernel_source $flavor} M=$PWD/obj/$flavor
+done
+%install
+export INSTALL_MOD_PATH=$RPM_BUILD_ROOT
+export INSTALL_MOD_DIR=extra/%{name}
+for flavor in %flavors_to_build ; do 
+   make -C %{kernel_source $flavor} modules_install \
+           M=$PWD/obj/$flavor
+done
+%clean
+rm -rf %{buildroot}
+%changelog
+* Fri Feb  4 2011 Fred Gleason <fredg@paravelsystems.com>
+- Initial package creation.
+

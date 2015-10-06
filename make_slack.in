@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# make_slack
+#
+# Make a Slackware package.
+#
+# (C) Copyright 2006 Fred Gleason <fredg@paravelsystems.com>
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of version 2 of the GNU General Public License as
+#    published by the Free Software Foundation;
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, 
+#    Boston, MA  02111-1307  USA
+#
+
+#
+# Clean the build tree
+#
+BUILD_DIR=/var/tmp/gpio-@VERSION@
+rm -rf $BUILD_DIR
+
+#
+# Build the package tree
+#
+mkdir -p $BUILD_DIR/lib/modules/`uname -r`/kernel/drivers/char
+cp drv/gpio.@MOD_EXTENSION@ $BUILD_DIR/lib/modules/`uname -r`/kernel/drivers/char/
+mkdir -p $BUILD_DIR@LOCAL_PREFIX@/include/linux
+cp gpio.h $BUILD_DIR@LOCAL_PREFIX@/include/linux
+mkdir -p $BUILD_DIR/etc/init.d
+cp gpio $BUILD_DIR/etc/init.d/
+chmod 755 $BUILD_DIR/etc/init.d/gpio
+mkdir -p $BUILD_DIR/install
+cp slack_doinst.sh $BUILD_DIR/install/doinst.sh
+cp slack-desc $BUILD_DIR/install/
+mkdir -p $BUILD_DIR@LOCAL_PREFIX@/bin
+cp utils/gpitest $BUILD_DIR@LOCAL_PREFIX@/bin/
+cp utils/gpotest $BUILD_DIR@LOCAL_PREFIX@/bin/
+
+#
+# Generate the package
+#
+SOURCE_DIR=`pwd`
+cd $BUILD_DIR
+makepkg --linkadd y --chown n gpio.tgz
+cd $SOURCE_DIR
+cp $BUILD_DIR/gpio.tgz ./gpio-@VERSION@-@ARCH@-@RPM_RELEASE@.tgz
+
+#
+# Clean up and exit
+#
+rm -r $BUILD_DIR
+
+
+# End of make_slack
